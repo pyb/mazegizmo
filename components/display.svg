@@ -49,27 +49,27 @@
     <ellipse
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path2337"
-       cx="7.064764"
-       cy="7.2852859"
+       cx="13.94"
+       cy="6.19"
        rx="1.5"
        ry="1.5" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path2337-5"
-       cx="104.74532"
-       cy="-3.390393"
+       cx="126.72"
+       cy="6.19"
        r="1.5" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path2337-3"
-       cx="129.37027"
-       cy="92.432831"
+       cx="126.72"
+       cy="90.01"
        r="1.5" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path2337-56"
-       cx="11.420273"
-       cy="96.001663"
+       cx="13.94"
+       cy="90.01"
        r="1.5" />
   </g>
 </svg>
