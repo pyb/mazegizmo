@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="300mm"
-   height="180mm"
-   viewBox="0 0 300 180"
+   width="270mm"
+   height="160mm"
+   viewBox="0 0 270 160"
    version="1.1"
    id="svg240"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
@@ -32,8 +32,8 @@
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
-     width="300mm"
-     height="180mm" />
+     width="270mm"
+     height="160mm" />
   <defs
      id="defs237" />
   <g
@@ -45,164 +45,176 @@
        id="rect2313"
        width="120.65"
        height="76.199997"
-       x="79.834747"
-       y="42.147911" />
+       x="65.16217"
+       y="34.873386" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path2337"
-       cx="83.774742"
-       cy="38.337914"
+       cx="69.102165"
+       cy="31.063389"
        r="1.5" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path2337-5"
-       cx="196.55475"
-       cy="38.337914"
+       cx="181.88217"
+       cy="31.063389"
        r="1.5" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path2337-3"
-       cx="196.55475"
-       cy="122.15791"
+       cx="181.88217"
+       cy="114.88338"
        r="1.5" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path2337-56"
-       cx="83.774742"
-       cy="122.15791"
+       cx="69.102165"
+       cy="114.88338"
        r="1.5" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path665"
-       cx="41.998783"
-       cy="141.61815"
+       cx="27.962502"
+       cy="131.98535"
        r="8" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="23.559942"
-       y="165.57793"
-       id="text2355"><tspan
-         sodipodi:role="line"
-         id="tspan2353"
-         style="stroke-width:0.264583"
-         x="23.559942"
-         y="165.57793">Rugged</tspan></text>
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path665-3"
-       cx="55.264"
-       cy="79.017487"
+       cx="36.653244"
+       cy="80.000702"
        r="8" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="7.1646404"
-       y="81.918228"
+       style="font-style:normal;font-weight:normal;font-size:8.46667px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="6.1332421"
+       y="104.29421"
        id="text5014"><tspan
          sodipodi:role="line"
          id="tspan5012"
-         style="stroke-width:0.264583"
-         x="7.1646404"
-         y="81.918228">Rotary</tspan></text>
+         style="font-size:8.46667px;stroke-width:0.264583"
+         x="6.1332421"
+         y="104.29421">Open/Close</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:9.87778px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="20.10479"
+       y="35.620502"
+       id="text5014-9"><tspan
+         sodipodi:role="line"
+         id="tspan5012-1"
+         style="font-size:9.87778px;stroke-width:0.264583"
+         x="20.10479"
+         y="35.620502">Adjust</tspan></text>
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path1952"
-       cx="257.64767"
-       cy="141.62326"
+       cx="227.46059"
+       cy="130.82848"
        r="13" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path1954"
-       cx="242.40768"
-       cy="126.38326"
+       cx="212.2206"
+       cy="115.58848"
        r="1.5" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path1954-3"
-       cx="272.88766"
-       cy="126.38326"
+       cx="242.70059"
+       cy="115.58848"
        r="1.5" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path1954-6"
-       cx="272.88766"
-       cy="156.86327"
+       cx="242.70059"
+       cy="146.06848"
        r="1.5" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path1954-7"
-       cx="242.40768"
-       cy="156.86327"
+       cx="212.2206"
+       cy="146.06848"
        r="1.5" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path1892"
-       cx="180.72626"
+       cx="163.60541"
        r="6"
-       cy="135.4245" />
+       cy="127.48096" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path1892-5"
-       cx="111.67898"
+       cx="97.006401"
        r="6"
-       cy="135.43213" />
+       cy="128.15761" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="126.87335"
-       y="157.38773"
+       style="font-style:normal;font-weight:normal;font-size:9.87778px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="112.50075"
+       y="138.81349"
        id="text15792"><tspan
          sodipodi:role="line"
          id="tspan15790"
-         style="stroke-width:0.264583"
-         x="126.87335"
-         y="157.38773">Momentary</tspan></text>
+         style="font-size:9.87778px;stroke-width:0.264583"
+         x="112.50075"
+         y="138.81349">Launch</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="129.71582"
-       y="26.75349"
-       id="text15792-3"><tspan
+       style="font-style:normal;font-weight:normal;font-size:14.4267px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.360669"
+       x="113.16086"
+       y="22.435371"
+       id="text15792-3"
+       transform="scale(1.0131367,0.98703361)"><tspan
          sodipodi:role="line"
          id="tspan15790-5"
-         style="stroke-width:0.264583"
-         x="129.71582"
-         y="26.75349">Title</tspan></text>
+         style="stroke-width:0.360669"
+         x="113.16086"
+         y="22.435371">Maze</tspan></text>
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path1138"
-       cx="55.139259"
-       cy="48.535515"
+       cx="37.993382"
+       cy="52.638103"
        r="3.75" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path1140"
-       cx="47.339264"
-       cy="48.535515"
+       cx="30.193386"
+       cy="52.638103"
        r="1.5" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path665-6"
-       cx="238.8894"
-       cy="81.645546"
+       cx="211.49268"
+       cy="72.958206"
        r="8" />
     <circle
        style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
        id="path665-7"
-       cx="238.9816"
-       cy="54.285873"
+       cx="211.58487"
+       cy="45.598541"
        r="8" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="223.51234"
-       y="39.934803"
+       style="font-style:normal;font-weight:normal;font-size:9.87778px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="203.49547"
+       y="29.132038"
        id="text17621"><tspan
          sodipodi:role="line"
          id="tspan17619"
-         style="stroke-width:0.264583"
-         x="223.51234"
-         y="39.934803">Arcade</tspan></text>
+         style="font-size:9.87778px;stroke-width:0.264583"
+         x="203.49547"
+         y="29.132038">Action 1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:9.87778px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="202.9632"
+       y="95.576347"
+       id="text17621-6"><tspan
+         sodipodi:role="line"
+         id="tspan17619-2"
+         style="font-size:9.87778px;stroke-width:0.264583"
+         x="202.9632"
+         y="95.576347">Action 2</tspan></text>
   </g>
 </svg>

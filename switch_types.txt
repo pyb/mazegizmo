@@ -1,0 +1,6 @@
+Action = arcade switches
+Open/close = Rotary
+Adjust = Pot
+Launch = Momentary
+
+Should I remove text?
