@@ -24,8 +24,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="0.88654349"
-     inkscape:cx="782.81551"
-     inkscape:cy="365.4643"
+     inkscape:cx="317.52531"
+     inkscape:cy="266.20239"
      inkscape:window-width="1920"
      inkscape:window-height="1022"
      inkscape:window-x="0"
@@ -52,25 +52,25 @@
        id="path2337"
        cx="69.102165"
        cy="31.063389"
-       r="1.5" />
+       r="1.55" />
     <circle
        style="fill:none;stroke:#000000;stroke-width:0.264583"
        id="path2337-5"
        cx="181.88217"
        cy="31.063389"
-       r="1.5" />
+       r="1.55" />
     <circle
        style="fill:none;stroke:#000000;stroke-width:0.264583"
        id="path2337-3"
        cx="181.88217"
        cy="114.88338"
-       r="1.5" />
+       r="1.55" />
     <circle
        style="fill:none;stroke:#000000;stroke-width:0.264583"
        id="path2337-56"
        cx="69.102165"
        cy="114.88338"
-       r="1.5" />
+       r="1.55" />
     <circle
        style="fill:none;stroke:#000000;stroke-width:0.264583"
        id="path665"
@@ -169,19 +169,19 @@
        id="path1954"
        cx="212.2206"
        cy="115.58848"
-       r="1.5" />
+       r="1.55" />
     <circle
        style="fill:none;stroke:#000000;stroke-width:0.264583"
        id="path1954-3"
        cx="242.70059"
        cy="115.58848"
-       r="1.5" />
+       r="1.55" />
     <circle
        style="fill:none;stroke:#000000;stroke-width:0.264583"
        id="path1954-6"
        cx="242.70059"
        cy="146.06848"
-       r="1.5" />
+       r="1.55" />
     <circle
        style="fill:none;stroke:#000000;stroke-width:0.264583"
        id="path1954-7"
@@ -336,24 +336,24 @@
        id="path89"
        cx="13.132292"
        cy="11.132292"
-       r="4" />
+       r="4.1" />
     <circle
        style="fill:none;stroke:#000000;stroke-width:0.264583"
        id="path89-3"
        cx="257.13229"
        cy="11.132292"
-       r="4" />
+       r="4.1" />
     <circle
        style="fill:none;stroke:#000000;stroke-width:0.264583"
        id="path89-6"
        cx="13.132292"
        cy="149.13229"
-       r="4" />
+       r="4.1" />
     <circle
        style="fill:none;stroke:#000000;stroke-width:0.264583"
        id="path89-3-7"
        cx="257.13229"
        cy="149.13229"
-       r="4" />
+       r="4.1" />
   </g>
 </svg>
