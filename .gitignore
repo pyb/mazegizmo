@@ -1,1 +1,4 @@
 docs/
+*.eps
+protogame/game
+
