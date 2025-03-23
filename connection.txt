@@ -1,0 +1,30 @@
+
+
+Sensor needs:
+5V, GND
+I2C : SCL, SDA
+maybe RST
+SDA: brown
+SCL: white
+RST: blue
+
+where is I2C on Pi?
+marked on HAT, but which is which? SCL, SDA
+GPIO2 is SDA
+GPIO3 is SCL
+
+
+----
+
+Testing with CircuitPython: I follow this
+https://learn.adafruit.com/adafruit-bno055-absolute-orientation-sensor/python-circuitpython
+
+Installing CircuitPython BNO055 package
+
+As of Bookworm, "Use pip with virtual environments"
+https://www.raspberrypi.com/documentation/computers/os.html#use-python-on-a-raspberry-pi
+
+-> works
+
+Installing CircuitPython
+

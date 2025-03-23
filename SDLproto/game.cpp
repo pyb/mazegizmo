@@ -11,6 +11,52 @@ const int window_height = 600;
 SDL_Window* window = NULL;
 SDL_Renderer* renderer;
 
+class Sprite
+{
+public:
+	 // Texture texture;
+	 int width;
+	 int height;
+	 
+};
+
+/*
+   // examples of good use of enum classes (safe)
+   enum class Animal { dog, deer, cat, bird, human };  // enum class
+   enum class Mammal { kangaroo, deer, human };   
+    Animal a = Animal::deer;
+    Mammal m = Mammal::deer;
+*/
+
+enum class Shape { Rectangle, Circle }; 
+	 
+class GameObject
+{
+public:
+	 Shape shape;
+	 boolean moves;
+	 
+	 //Initializes the variables
+	 Object();
+
+	 //Takes key presses and adjusts the dot's velocity
+	 //void handleEvent( SDL_Event& e );
+
+	 void move( float timeStep );
+
+	 // Use a method here, or a sprite?
+	 
+	 //Add to the scene. 
+	 void render();
+
+	 
+	 float x, y;
+	 float vx, vy;
+	 float ax, ay; // accel needed here? or computed every frame?
+private:
+
+};
+
 void init (int width, int height, SDL_Window** window, SDL_Renderer** renderer) {
 	 if ( SDL_Init( SDL_INIT_EVERYTHING ) < 0 ) {
 		  cout << "Error initializing SDL: " << SDL_GetError() << endl;
