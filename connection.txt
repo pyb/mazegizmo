@@ -26,5 +26,35 @@ https://www.raspberrypi.com/documentation/computers/os.html#use-python-on-a-rasp
 
 -> works
 
-Installing CircuitPython
+Use Python, not circuitpython.
+-> tested OK
+
+
+----
+
+Sensor in C:
+Have to drop Adafruit code and use Bosch library ?
+https://github.com/boschsensortec/BNO055_SensorAPI
+
+It's been tested before https://forums.adafruit.com/viewtopic.php?t=81384
+
+This ? uses pigpio, a wiringpi alternative
+
+https://github.com/CVino/RPi_BNO055
+
+This? based on WiringPi
+https://github.com/BanaanKiamanesh/BNO055-RaspberryPi
+
+or this: seems regularly ish updated.
+https://github.com/fm4dd/pi-bno055
+
+or : call Python from C (bof)
+
+---------
+
+GPIO :
+What's the library to use?
+How to use sensor with C? there is a library
+
+WiringPi Library
 
