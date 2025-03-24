@@ -1,4 +1,12 @@
 go to box2d and build.sh
 copy include/box2d and build/src/libbox2d.a to include/ and lib/ respectively
 
+Example build:
 g++ box2d_example.cpp -Iinclude/ -Llib -lbox2d   -o b2
+
+Game build:
+This downloads and builds raylib and box2d if needed. Whereas on the Pi, they are prebuilt
+cmake .
+Change raylib cmake version to 3.22
+cmake .
+make

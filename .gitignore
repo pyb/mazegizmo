@@ -1,4 +1,13 @@
 docs/
 *.eps
 code/b2d_example
+code/game
+code/lib
+code/_deps
+CMakeCache.txt
+CMakeFiles
+CPack*
+code/Makefile
+code/cmake_install.cmake
+compile_commands.json
 
