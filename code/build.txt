@@ -1,0 +1,4 @@
+go to box2d and build.sh
+copy include/box2d and build/src/libbox2d.a to include/ and lib/ respectively
+
+g++ box2d_example.cpp -Iinclude/ -Llib -lbox2d   -o b2
