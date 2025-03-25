@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define SENSOR true
+//#define SENSOR true
 
 int verbose = 0;
 
@@ -17,14 +17,15 @@ const int screen_width = 800;
 const int screen_height = 480;
 //const float pixelsPerMeter = 1000.0f;
 const float ballDensity = 1.0f;
-const float wallLength = .5f;
+const float wallLengthV = .5f;
 const float wallWidth = .020f;
-const float ballRadius = .02f;
+const float ballRadius = .013f;
 const b2Vec2 ballStart = (b2Vec2){0.0f, 0.0f};
 //b2Vec2 gravity = {0.0f, -9.8f};
 b2Vec2 gravity = {0.0f, 0.0f};
-
-const float pixelsPerMeter = screen_height / (wallLength);
+const float wallLengthH = wallLengthV * ((float)screen_width / (float)screen_height);
+	 
+const float pixelsPerMeter = screen_height / (wallLengthV);
 
 const float drawTransformAxisScale = .05f;
 const int sensorFramesSkipped = 10;
@@ -54,8 +55,8 @@ b2Vec2 readGravity()
 		  printf("Error: Cannot read gravity vector data.\n");
 		  exit(-1);
 	 }
-	 printf("GRA %3.2f %3.2f %3.2f\n", bnod.gravityx, bnod.gravityy, bnod.gravityz);
-	 return (b2Vec2){bnod.gravityy, bnod.gravityx}; // axes are inverted rn
+	 printf("GRA %3.2f %3.2f %3.2f\n", (float)bnod.gravityx, (float)bnod.gravityy, bnod.gravityz);
+	 return (b2Vec2){(float)bnod.gravityy, (float)bnod.gravityx}; // axes are inverted rn
 }
 
 /*
@@ -236,32 +237,34 @@ int main(void)
 	 b2WorldId worldId = b2CreateWorld(&worldDef);
 
 	 b2BodyDef wallBodyDef = b2DefaultBodyDef();
-	 wallBodyDef.position = (b2Vec2){0.0f, -wallLength/2 + wallWidth/2};
+	 wallBodyDef.position = (b2Vec2){0.0f, -wallLengthV/2 + wallWidth/2};
 	 wallBodyDef.enableSleep = false;
 	 wallBodyDef.type = b2_staticBody;
 	 b2BodyId wall0Id = b2CreateBody(worldId, &wallBodyDef);
 
 	 wallBodyDef = b2DefaultBodyDef();
-	 wallBodyDef.position = (b2Vec2){-wallLength/2 - wallWidth/2, 0};
+	 wallBodyDef.position = (b2Vec2){-wallLengthH/2 + wallWidth/2, 0};
 	 wallBodyDef.enableSleep = false;
 	 wallBodyDef.type = b2_staticBody;
 	 b2BodyId wall1Id = b2CreateBody(worldId, &wallBodyDef);
 
 	 wallBodyDef = b2DefaultBodyDef();
-	 wallBodyDef.position = (b2Vec2){0.0f, wallLength/2 - wallWidth/2};
+	 wallBodyDef.position = (b2Vec2){0.0f, wallLengthV/2 - wallWidth/2};
 	 wallBodyDef.enableSleep = false;
 	 wallBodyDef.type = b2_staticBody;
 	 b2BodyId wall2Id = b2CreateBody(worldId, &wallBodyDef);
 
 	 wallBodyDef = b2DefaultBodyDef();
-	 wallBodyDef.position = (b2Vec2){wallLength/2 + wallWidth/2, 0};
+	 wallBodyDef.position = (b2Vec2){wallLengthH/2 - wallWidth/2, 0};
 	 wallBodyDef.enableSleep = false;
 	 wallBodyDef.type = b2_staticBody;
 	 b2BodyId wall3Id = b2CreateBody(worldId, &wallBodyDef);
 	 
-	 b2Vec2 boxExtent = { wallLength/2, wallWidth/2};
-	 b2Polygon wallHBox = b2MakeBox(boxExtent.x, boxExtent.y);
-	 b2Polygon wallVBox = b2MakeBox(boxExtent.y, boxExtent.x);
+	 b2Vec2 boxHExtent = { wallLengthH/2, wallWidth/2};
+	 b2Vec2 boxVExtent = { wallLengthV/2, wallWidth/2};
+
+	 b2Polygon wallHBox = b2MakeBox(boxHExtent.x, boxHExtent.y);
+	 b2Polygon wallVBox = b2MakeBox(boxVExtent.y, boxVExtent.x);
 	 b2ShapeDef groundShapeDef = b2DefaultShapeDef();
 	 b2CreatePolygonShape(wall0Id, &groundShapeDef, &wallHBox);
 	 b2CreatePolygonShape(wall1Id, &groundShapeDef, &wallVBox);
