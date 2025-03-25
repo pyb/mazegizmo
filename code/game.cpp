@@ -1,12 +1,17 @@
+// Forked from Erin's box2d-raylib example
+
 #include "raylib.h"
 #include "box2d/box2d.h"
 
-#include <assert.h>
+#include <stdio.h>
 #include <iostream>
+#include "getbno055.h"
 
 using namespace std;
 
-// Forked from Erin's box2d-raylib example
+//#define SENSOR true
+
+int verbose = 0;
 
 const int screen_width = 800;
 const int screen_height = 480;
@@ -16,6 +21,7 @@ const float wallLength = 100.0f;
 const float wallWidth = 3.5f;
 //b2Vec2 gravity = {0.0f, -9.8f};
 b2Vec2 gravity = {0.0f, 0.0f};
+const int sensorFramesSkipped = 10;
 
 typedef struct Entity
 {
@@ -23,6 +29,24 @@ typedef struct Entity
 	b2Vec2 extent;
 	Texture texture;
 } Entity;
+
+void initSensor()
+{
+	 set_mode(ndof);
+}
+
+b2Vec2 readGravity()
+{
+	 int res = -1;
+	 struct bnogra bnod;
+	 res = get_gra(&bnod);
+	 if(res != 0) {
+		  printf("Error: Cannot read gravity vector data.\n");
+		  exit(-1);
+	 }
+	 printf("GRA %3.2f %3.2f %3.2f\n", bnod.gravityx, bnod.gravityy, bnod.gravityz);
+	 return (b2Vec2){0.0f, 9.8f};
+}
 
 void DrawEntity(const Entity* entity)
 {
@@ -142,7 +166,7 @@ void DrawStringFcn( b2Vec2 p, const char* s, b2HexColor color, void* context )
 
 b2AABB bounds = { { -FLT_MAX, -FLT_MAX }, { FLT_MAX, FLT_MAX } };
 
-void init_debug() {
+void initDebug() {
 	m_debugDraw = {};
 	m_debugDraw.DrawCircle = drawCircle;
 	m_debugDraw.DrawPolygon = drawPoly;
@@ -177,6 +201,9 @@ void init_debug() {
 
 int main(void)
 {
+#ifdef SENSOR
+	 initSensor();
+#endif
 	 InitWindow(screen_width, screen_height, "Maze");
 
 	 Camera2D camera = { 0 };
@@ -190,7 +217,7 @@ int main(void)
 //	 float lengthUnitsPerMeter = 10.0f;
 //	 b2SetLengthUnitsPerMeter(lengthUnitsPerMeter);
 
-	 init_debug();
+	 initDebug();
 
 	 b2WorldDef worldDef = b2DefaultWorldDef();
 	 worldDef.gravity.x = gravity.x;
@@ -246,6 +273,7 @@ int main(void)
 
 	 bool pause = false;
 
+	 int k = 0;
 	 while (!WindowShouldClose())
 	 {
 		  if (IsKeyDown(KEY_UP))
@@ -268,7 +296,14 @@ int main(void)
 			   gravity.x += 1.3f;
 			   b2World_SetGravity (worldId, gravity);
 		  }
-		  
+
+#ifdef SENSOR
+		  else if (k++ == sensorFramesSkipped)
+		  {// read rate?
+			   k = 0;
+			   gravity = readGravity();
+		  }
+#endif
 		  float deltaTime = GetFrameTime();
 		  b2World_Step(worldId, deltaTime, 4);
 

@@ -10,4 +10,5 @@ CPack*
 code/Makefile
 code/cmake_install.cmake
 compile_commands.json
+*.a
 
