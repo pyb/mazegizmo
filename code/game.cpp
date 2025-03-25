@@ -9,29 +9,42 @@
 
 using namespace std;
 
-//#define SENSOR true
+#define SENSOR true
 
 int verbose = 0;
 
 const int screen_width = 800;
 const int screen_height = 480;
 const float pixelsPerMeter = 4.2f;
-const float ballDensity = 15.0f;
+const float ballDensity = 150.0f;
 const float wallLength = 100.0f;
 const float wallWidth = 3.5f;
 //b2Vec2 gravity = {0.0f, -9.8f};
 b2Vec2 gravity = {0.0f, 0.0f};
 const int sensorFramesSkipped = 10;
 
+/*
 typedef struct Entity
 {
 	b2BodyId bodyId;
 	b2Vec2 extent;
 	Texture texture;
 } Entity;
+*/
+
+// most of these are unused
+int outflag = 0;
+int argflag = 0; // 1 dump, 2 reset, 3 load calib, 4 write calib
+char opr_mode[9] = {0};
+char pwr_mode[8] = {0};
+char datatype[256];
+char senaddr[256] = "0x28";
+char i2c_bus[256] = I2CBUS;
 
 void initSensor()
 {
+	 get_i2cbus(i2c_bus, senaddr);
+	 cout << "init sensor..." << endl;
 	 set_mode(ndof);
 }
 
@@ -45,13 +58,14 @@ b2Vec2 readGravity()
 		  exit(-1);
 	 }
 	 printf("GRA %3.2f %3.2f %3.2f\n", bnod.gravityx, bnod.gravityy, bnod.gravityz);
-	 return (b2Vec2){0.0f, 9.8f};
+	 return (b2Vec2){bnod.gravityy, bnod.gravityx}; // axes are inverted rn
 }
+
+/*
+// Disabled for now
 
 void DrawEntity(const Entity* entity)
 {
-	 /*
-	   // Disabled for now
 	// The boxes were created centered on the bodies, but raylib draws textures starting at the top left corner.
 	// b2Body_GetWorldPoint gets the top left corner of the box accounting for rotation.
 	b2Vec2 p = b2Body_GetWorldPoint(entity->bodyId, (b2Vec2) { -entity->extent.x, -entity->extent.y });
@@ -60,8 +74,9 @@ void DrawEntity(const Entity* entity)
 
 	Vector2 ps = {p.x, p.y};
 	DrawTextureEx(entity->texture, ps, RAD2DEG * radians, 1.0f, WHITE);
-	 */
+
 }
+*/
 
 b2DebugDraw m_debugDraw;
 
@@ -296,12 +311,12 @@ int main(void)
 			   gravity.x += 1.3f;
 			   b2World_SetGravity (worldId, gravity);
 		  }
-
 #ifdef SENSOR
 		  else if (k++ == sensorFramesSkipped)
 		  {// read rate?
 			   k = 0;
 			   gravity = readGravity();
+			   b2World_SetGravity (worldId, gravity);
 		  }
 #endif
 		  float deltaTime = GetFrameTime();
