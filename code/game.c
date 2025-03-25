@@ -114,12 +114,13 @@ int main(void)
 
 		BeginDrawing();
 		ClearBackground(DARKGRAY);
-
+/*
 		const char* message = "Hello Box2D!";
 		int fontSize = 36;
 		int textWidth = MeasureText("Hello Box2D!", fontSize);
 		DrawText(message, (width - textWidth) / 2, 50, fontSize, LIGHTGRAY);
-
+*/
+		
 		for (int i = 0; i < GROUND_COUNT; ++i)
 		{
 			DrawEntity(groundEntities + i);
