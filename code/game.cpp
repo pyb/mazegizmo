@@ -72,30 +72,31 @@ void drawSolidCircle (b2Transform transform, float radius, b2HexColor color, voi
 
 void drawSolidPoly (b2Transform transform, const b2Vec2 *vertices, int vertexCount, float radius, b2HexColor color, void *context)
 {
-	 Vector2 from;
-	 Vector2 to;
-	 Vector2 tf = v2(transform.p);
-	 from = v2(vertices[0]);
-	 from.x += tf.x;
-	 from.y += tf.y;
-	 to = from;
-	 
-	 for (int i = 1 ; i < vertexCount ; i++)
+	 if (1)
 	 {
+		  Vector2 from;
+		  Vector2 to;
+		  Vector2 tf = v2(transform.p);
+		  from = v2(vertices[0]);
+		  from.x += tf.x;
+		  from.y += tf.y;
+		  to = from;
+	 
+		  for (int i = 1 ; i < vertexCount ; i++)
+		  {
+			   to = v2(vertices[i]);
+			   to.x += tf.x;
+			   to.y += tf.y;
+			   DrawLineV(to, from, GetColor(color));
+			   from = to;
+		  }
 
-		  to = v2(vertices[i]);
+		  to = v2(vertices[0]);
 		  to.x += tf.x;
 		  to.y += tf.y;
-		  DrawLineV(to, from, GetColor(color));
-		  from = to;
+		  DrawLineV(from, to, GetColor(color));	 
 	 }
-
-	 to = v2(vertices[0]);
-	 to.x += tf.x;
-	 to.y += tf.y;
-	 DrawLineV(from, to, GetColor(color));	 
 }
-
 
 void DrawSolidCapsuleFcn( b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context )
 {
@@ -110,7 +111,6 @@ void DrawSegmentFcn( b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context )
 
 void DrawTransformFcn( b2Transform transform, void* context )
 {
-
 	 const float axisScale = 3.5f;
 	 Vector2 rX, rY;
 	 rX = v2(b2Rot_GetXAxis(transform.q));
@@ -130,7 +130,7 @@ void DrawTransformFcn( b2Transform transform, void* context )
 void DrawPointFcn( b2Vec2 p, float size, b2HexColor color, void* context )
 {
 	 DrawCircleV(v2(p), size, GetColor(color));
-	 cout << "draw point " << endl;
+//	 cout << "draw point " << p.x << " " << p.y << " " << size << endl;
 }
 
 void DrawStringFcn( b2Vec2 p, const char* s, b2HexColor color, void* context )
@@ -165,11 +165,11 @@ void init_debug() {
 	m_debugDraw.drawJointExtras = false;
 	m_debugDraw.drawAABBs = true;
 	m_debugDraw.drawMass = true;
-	m_debugDraw.drawContacts = false;
-	m_debugDraw.drawGraphColors = false;
-	m_debugDraw.drawContactNormals = false;
-	m_debugDraw.drawContactImpulses = false;
-	m_debugDraw.drawFrictionImpulses = false;
+	m_debugDraw.drawContacts = true;
+	m_debugDraw.drawGraphColors = true;
+	m_debugDraw.drawContactNormals = true;
+	m_debugDraw.drawContactImpulses = true;
+	m_debugDraw.drawFrictionImpulses = true;
 
 	m_debugDraw.context = nullptr;
 
@@ -224,7 +224,6 @@ int main(void)
 	 circle.center = (b2Vec2){0.0f, 0.0f};
 	 circle.radius = 2.0f;
 	 b2CreateCircleShape(ballBodyId, &ballShapeDef, &circle);
-
 
 	 bool pause = false;
 
