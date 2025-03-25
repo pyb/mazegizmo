@@ -10,11 +10,12 @@ using namespace std;
 
 const int screen_width = 800;
 const int screen_height = 480;
-const float pixelsPerMeter = 5.0f;
+const float pixelsPerMeter = 4.2f;
 const float ballDensity = 15.0f;
 const float wallLength = 100.0f;
-const float wallWidth = 5.0f;
-b2Vec2 gravity = {0, -9.8f};
+const float wallWidth = 3.5f;
+//b2Vec2 gravity = {0.0f, -9.8f};
+b2Vec2 gravity = {0.0f, 0.0f};
 
 typedef struct Entity
 {
@@ -237,7 +238,7 @@ int main(void)
 
 	 b2ShapeDef ballShapeDef = b2DefaultShapeDef();
 	 ballShapeDef.density = ballDensity;
-	 ballShapeDef.friction = 0.3f;
+	 ballShapeDef.friction = 0.06f;
 	 b2Circle circle;
 	 circle.center = (b2Vec2){0.0f, 0.0f};
 	 circle.radius = 2.0f;
