@@ -67,7 +67,6 @@ void drawCircle (b2Vec2 center, float radius, b2HexColor color, void *context)
 
 void drawSolidCircle (b2Transform transform, float radius, b2HexColor color, void *context)
 {
-//	 cout << transform.p.x << " " << transform.p.y << " " << radius << endl;
 	 DrawCircleV(v2(transform.p), radius, GetColor(color));
 }
 
@@ -106,27 +105,38 @@ void DrawSolidCapsuleFcn( b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, 
 
 void DrawSegmentFcn( b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context )
 {
-	 printf("Draw segment\n");
-
+	 DrawLineV(v2(p1), v2(p2), GetColor(color));
 }
 
 void DrawTransformFcn( b2Transform transform, void* context )
 {
-	 printf("Draw transform\n");
 
+	 const float axisScale = 3.5f;
+	 Vector2 rX, rY;
+	 rX = v2(b2Rot_GetXAxis(transform.q));
+	 rY = v2(b2Rot_GetYAxis(transform.q));
+
+	 Vector2 p, q1, q2;
+	 p =  v2(transform.p);
+	 q1.x = p.x + axisScale * rX.x;
+	 q1.y = p.y + axisScale * rX.y;
+	 DrawLineV(p, q1, RED);
+
+	 q2.x = p.x + axisScale * rY.x;
+	 q2.y = p.y + axisScale * rY.y;
+	 DrawLineV(p, q2, GREEN);
 }
 
 void DrawPointFcn( b2Vec2 p, float size, b2HexColor color, void* context )
 {
-	 printf("Draw point\n");
-
+	 DrawCircleV(v2(p), size, GetColor(color));
+	 cout << "draw point " << endl;
 }
 
 void DrawStringFcn( b2Vec2 p, const char* s, b2HexColor color, void* context )
 {
 	 int fontSize = 2;
 	 DrawText(s, p.x, p.y, fontSize, GetColor(color)); 
-//	 printf("Draw string\n");
 }
 
 
@@ -154,7 +164,7 @@ void init_debug() {
 	m_debugDraw.drawJoints = false;
 	m_debugDraw.drawJointExtras = false;
 	m_debugDraw.drawAABBs = true;
-	m_debugDraw.drawMass = false;
+	m_debugDraw.drawMass = true;
 	m_debugDraw.drawContacts = false;
 	m_debugDraw.drawGraphColors = false;
 	m_debugDraw.drawContactNormals = false;
