@@ -5,7 +5,7 @@ project(game
 	VERSION 1.0.0
 	DESCRIPTION "Game with Box2D x raylib integration"
 	HOMEPAGE_URL "https://recurse.com"
-	LANGUAGES C
+	LANGUAGES CXX
 )
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -28,7 +28,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(raylib)
 
-add_executable(game game.c)
+add_executable(game game.cpp)
 target_link_libraries(game PRIVATE box2d raylib)
 
 if (MSVC)
