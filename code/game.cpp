@@ -15,22 +15,19 @@ int verbose = 0;
 
 const int screen_width = 800;
 const int screen_height = 480;
-const float pixelsPerMeter = 4.2f;
-const float ballDensity = 150.0f;
-const float wallLength = 100.0f;
-const float wallWidth = 3.5f;
+//const float pixelsPerMeter = 1000.0f;
+const float ballDensity = 1.0f;
+const float wallLength = .5f;
+const float wallWidth = .020f;
+const float ballRadius = .02f;
+const b2Vec2 ballStart = (b2Vec2){0.0f, 0.0f};
 //b2Vec2 gravity = {0.0f, -9.8f};
 b2Vec2 gravity = {0.0f, 0.0f};
-const int sensorFramesSkipped = 10;
 
-/*
-typedef struct Entity
-{
-	b2BodyId bodyId;
-	b2Vec2 extent;
-	Texture texture;
-} Entity;
-*/
+const float pixelsPerMeter = screen_height / (wallLength);
+
+const float drawTransformAxisScale = .05f;
+const int sensorFramesSkipped = 10;
 
 // most of these are unused
 int outflag = 0;
@@ -150,19 +147,18 @@ void DrawSegmentFcn( b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context )
 
 void DrawTransformFcn( b2Transform transform, void* context )
 {
-	 const float axisScale = 3.5f;
 	 Vector2 rX, rY;
 	 rX = v2(b2Rot_GetXAxis(transform.q));
 	 rY = v2(b2Rot_GetYAxis(transform.q));
 
 	 Vector2 p, q1, q2;
 	 p =  v2(transform.p);
-	 q1.x = p.x + axisScale * rX.x;
-	 q1.y = p.y + axisScale * rX.y;
+	 q1.x = p.x + drawTransformAxisScale * rX.x;
+	 q1.y = p.y + drawTransformAxisScale * rX.y;
 	 DrawLineV(p, q1, RED);
 
-	 q2.x = p.x + axisScale * rY.x;
-	 q2.y = p.y + axisScale * rY.y;
+	 q2.x = p.x + drawTransformAxisScale * rY.x;
+	 q2.y = p.y + drawTransformAxisScale * rY.y;
 	 DrawLineV(p, q2, GREEN);
 }
 
@@ -240,7 +236,7 @@ int main(void)
 	 b2WorldId worldId = b2CreateWorld(&worldDef);
 
 	 b2BodyDef wallBodyDef = b2DefaultBodyDef();
-	 wallBodyDef.position = (b2Vec2){0.0f, -wallLength/2 - wallWidth/2};
+	 wallBodyDef.position = (b2Vec2){0.0f, -wallLength/2 + wallWidth/2};
 	 wallBodyDef.enableSleep = false;
 	 wallBodyDef.type = b2_staticBody;
 	 b2BodyId wall0Id = b2CreateBody(worldId, &wallBodyDef);
@@ -252,7 +248,7 @@ int main(void)
 	 b2BodyId wall1Id = b2CreateBody(worldId, &wallBodyDef);
 
 	 wallBodyDef = b2DefaultBodyDef();
-	 wallBodyDef.position = (b2Vec2){0.0f, wallLength/2 + wallWidth/2};
+	 wallBodyDef.position = (b2Vec2){0.0f, wallLength/2 - wallWidth/2};
 	 wallBodyDef.enableSleep = false;
 	 wallBodyDef.type = b2_staticBody;
 	 b2BodyId wall2Id = b2CreateBody(worldId, &wallBodyDef);
@@ -274,7 +270,7 @@ int main(void)
 	 
 	 b2BodyDef ballBodyDef = b2DefaultBodyDef();
 	 ballBodyDef.type = b2_dynamicBody;
-	 ballBodyDef.position = (b2Vec2){0.0f, 40.0f};
+	 ballBodyDef.position = ballStart;
 	 ballBodyDef.enableSleep = false;
 	 b2BodyId ballBodyId = b2CreateBody(worldId, &ballBodyDef);
 
@@ -283,7 +279,7 @@ int main(void)
 	 ballShapeDef.friction = 0.06f;
 	 b2Circle circle;
 	 circle.center = (b2Vec2){0.0f, 0.0f};
-	 circle.radius = 2.0f;
+	 circle.radius = ballRadius;
 	 b2CreateCircleShape(ballBodyId, &ballShapeDef, &circle);
 
 	 bool pause = false;
