@@ -2,7 +2,6 @@
 #include "box2d/box2d.h"
 
 #include <assert.h>
-#include <stdio.h>
 #include <iostream>
 
 using namespace std;
@@ -13,8 +12,9 @@ const int screen_width = 800;
 const int screen_height = 480;
 const float pixelsPerMeter = 5.0f;
 const float ballDensity = 15.0f;
-
-b2Vec2 gravity;
+const float wallLength = 100.0f;
+const float wallWidth = 5.0f;
+b2Vec2 gravity = {0, -9.8f};
 
 typedef struct Entity
 {
@@ -75,36 +75,32 @@ void drawSolidCircle (b2Transform transform, float radius, b2HexColor color, voi
 
 void drawSolidPoly (b2Transform transform, const b2Vec2 *vertices, int vertexCount, float radius, b2HexColor color, void *context)
 {
-	 if (1)
-	 {
-		  Vector2 from;
-		  Vector2 to;
-		  Vector2 tf = v2(transform.p);
-		  from = v2(vertices[0]);
-		  from.x += tf.x;
-		  from.y += tf.y;
-		  to = from;
+	 Vector2 from;
+	 Vector2 to;
+	 Vector2 tf = v2(transform.p);
+	 from = v2(vertices[0]);
+	 from.x += tf.x;
+	 from.y += tf.y;
+	 to = from;
 	 
-		  for (int i = 1 ; i < vertexCount ; i++)
-		  {
-			   to = v2(vertices[i]);
-			   to.x += tf.x;
-			   to.y += tf.y;
-			   DrawLineV(to, from, GetColor(color));
-			   from = to;
-		  }
-
-		  to = v2(vertices[0]);
+	 for (int i = 1 ; i < vertexCount ; i++)
+	 {
+		  to = v2(vertices[i]);
 		  to.x += tf.x;
 		  to.y += tf.y;
-		  DrawLineV(from, to, GetColor(color));	 
+		  DrawLineV(to, from, GetColor(color));
+		  from = to;
 	 }
+
+	 to = v2(vertices[0]);
+	 to.x += tf.x;
+	 to.y += tf.y;
+	 DrawLineV(from, to, GetColor(color));
 }
 
 void DrawSolidCapsuleFcn( b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context )
 {
-	 printf("Draw solid capsule\n");
-
+	 cout << "Draw solid capsule" << endl;
 }
 
 void DrawSegmentFcn( b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context )
@@ -196,32 +192,43 @@ int main(void)
 	 init_debug();
 
 	 b2WorldDef worldDef = b2DefaultWorldDef();
-//	 worldDef.gravity.y = 9.8f * lengthUnitsPerMeter;
-//	 worldDef.gravity.y = -9.8f;
-	 
-	 gravity.x = 0.0f;
-	 gravity.y = -9.8f;
-	 
 	 worldDef.gravity.x = gravity.x;
 	 worldDef.gravity.y = gravity.y;
 	 b2WorldId worldId = b2CreateWorld(&worldDef);
 
-	 /*
-	   Texture boxTexture = LoadTexture("box.png");
-	 */
+	 b2BodyDef wallBodyDef = b2DefaultBodyDef();
+	 wallBodyDef.position = (b2Vec2){0.0f, -wallLength/2 - wallWidth/2};
+	 wallBodyDef.enableSleep = false;
+	 wallBodyDef.type = b2_staticBody;
+	 b2BodyId wall0Id = b2CreateBody(worldId, &wallBodyDef);
 
-	 b2BodyDef groundBodyDef = b2DefaultBodyDef();
-	 groundBodyDef.position = (b2Vec2){0.0f, -10.0f};
-//	 groundBodyDef.gravityScale = 1.0f;
-	 groundBodyDef.enableSleep = false;
-//	 groundBodyDef.type = b2_staticBody;
-	 b2BodyId groundId = b2CreateBody(worldId, &groundBodyDef);
+	 wallBodyDef = b2DefaultBodyDef();
+	 wallBodyDef.position = (b2Vec2){-wallLength/2 - wallWidth/2, 0};
+	 wallBodyDef.enableSleep = false;
+	 wallBodyDef.type = b2_staticBody;
+	 b2BodyId wall1Id = b2CreateBody(worldId, &wallBodyDef);
 
-	 b2Vec2 boxExtent = { 50.0f, 10.0f};
-	 b2Polygon groundBox = b2MakeBox(boxExtent.x, boxExtent.y);
+	 wallBodyDef = b2DefaultBodyDef();
+	 wallBodyDef.position = (b2Vec2){0.0f, wallLength/2 + wallWidth/2};
+	 wallBodyDef.enableSleep = false;
+	 wallBodyDef.type = b2_staticBody;
+	 b2BodyId wall2Id = b2CreateBody(worldId, &wallBodyDef);
+
+	 wallBodyDef = b2DefaultBodyDef();
+	 wallBodyDef.position = (b2Vec2){wallLength/2 + wallWidth/2, 0};
+	 wallBodyDef.enableSleep = false;
+	 wallBodyDef.type = b2_staticBody;
+	 b2BodyId wall3Id = b2CreateBody(worldId, &wallBodyDef);
+	 
+	 b2Vec2 boxExtent = { wallLength/2, wallWidth/2};
+	 b2Polygon wallHBox = b2MakeBox(boxExtent.x, boxExtent.y);
+	 b2Polygon wallVBox = b2MakeBox(boxExtent.y, boxExtent.x);
 	 b2ShapeDef groundShapeDef = b2DefaultShapeDef();
-	 b2CreatePolygonShape(groundId, &groundShapeDef, &groundBox);
-
+	 b2CreatePolygonShape(wall0Id, &groundShapeDef, &wallHBox);
+	 b2CreatePolygonShape(wall1Id, &groundShapeDef, &wallVBox);
+	 b2CreatePolygonShape(wall2Id, &groundShapeDef, &wallHBox);
+	 b2CreatePolygonShape(wall3Id, &groundShapeDef, &wallVBox);
+	 
 	 b2BodyDef ballBodyDef = b2DefaultBodyDef();
 	 ballBodyDef.type = b2_dynamicBody;
 	 ballBodyDef.position = (b2Vec2){0.0f, 40.0f};
@@ -250,12 +257,16 @@ int main(void)
 			   gravity.y += 1.3f;
 			   b2World_SetGravity (worldId, gravity);
 		  }
-
-		  /*
-		  b2Vec2 position = b2Body_GetPosition(ballBodyId);
-		  b2Rot rotation = b2Body_GetRotation(ballBodyId);
-		  printf("%4.2f %4.2f %4.2f\n", position.x, position.y, b2Rot_GetAngle(rotation));
-		  */
+		  else if (IsKeyDown(KEY_LEFT))
+		  {
+			   gravity.x -= 1.3f;
+			   b2World_SetGravity (worldId, gravity);
+		  }
+		  else if (IsKeyDown(KEY_RIGHT))
+		  {
+			   gravity.x += 1.3f;
+			   b2World_SetGravity (worldId, gravity);
+		  }
 		  
 		  float deltaTime = GetFrameTime();
 		  b2World_Step(worldId, deltaTime, 4);
@@ -266,12 +277,6 @@ int main(void)
 		  ClearBackground(DARKGRAY);
 
 		  b2World_Draw(worldId, &m_debugDraw );
-		  /*
-			for (int i = 0; i < BOX_COUNT; ++i)
-			{
-			DrawEntity(boxEntities + i);
-			}
-		  */
 		  EndMode2D();
 		  EndDrawing();
 		  
