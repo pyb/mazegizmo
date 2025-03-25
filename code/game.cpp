@@ -12,6 +12,9 @@ using namespace std;
 const int screen_width = 800;
 const int screen_height = 480;
 const float pixelsPerMeter = 5.0f;
+const float ballDensity = 15.0f;
+
+b2Vec2 gravity;
 
 typedef struct Entity
 {
@@ -194,7 +197,13 @@ int main(void)
 
 	 b2WorldDef worldDef = b2DefaultWorldDef();
 //	 worldDef.gravity.y = 9.8f * lengthUnitsPerMeter;
-	 worldDef.gravity.y = -9.8f;
+//	 worldDef.gravity.y = -9.8f;
+	 
+	 gravity.x = 0.0f;
+	 gravity.y = -9.8f;
+	 
+	 worldDef.gravity.x = gravity.x;
+	 worldDef.gravity.y = gravity.y;
 	 b2WorldId worldId = b2CreateWorld(&worldDef);
 
 	 /*
@@ -203,6 +212,8 @@ int main(void)
 
 	 b2BodyDef groundBodyDef = b2DefaultBodyDef();
 	 groundBodyDef.position = (b2Vec2){0.0f, -10.0f};
+//	 groundBodyDef.gravityScale = 1.0f;
+	 groundBodyDef.enableSleep = false;
 //	 groundBodyDef.type = b2_staticBody;
 	 b2BodyId groundId = b2CreateBody(worldId, &groundBodyDef);
 
@@ -211,14 +222,14 @@ int main(void)
 	 b2ShapeDef groundShapeDef = b2DefaultShapeDef();
 	 b2CreatePolygonShape(groundId, &groundShapeDef, &groundBox);
 
-	 
 	 b2BodyDef ballBodyDef = b2DefaultBodyDef();
 	 ballBodyDef.type = b2_dynamicBody;
 	 ballBodyDef.position = (b2Vec2){0.0f, 40.0f};
+	 ballBodyDef.enableSleep = false;
 	 b2BodyId ballBodyId = b2CreateBody(worldId, &ballBodyDef);
 
 	 b2ShapeDef ballShapeDef = b2DefaultShapeDef();
-	 ballShapeDef.density = 1.0f;
+	 ballShapeDef.density = ballDensity;
 	 ballShapeDef.friction = 0.3f;
 	 b2Circle circle;
 	 circle.center = (b2Vec2){0.0f, 0.0f};
@@ -229,6 +240,23 @@ int main(void)
 
 	 while (!WindowShouldClose())
 	 {
+		  if (IsKeyDown(KEY_UP))
+		  {
+			   gravity.y -= 1.3f;
+			   b2World_SetGravity (worldId, gravity);
+		  }
+		  else if (IsKeyDown(KEY_DOWN))
+		  {
+			   gravity.y += 1.3f;
+			   b2World_SetGravity (worldId, gravity);
+		  }
+
+		  /*
+		  b2Vec2 position = b2Body_GetPosition(ballBodyId);
+		  b2Rot rotation = b2Body_GetRotation(ballBodyId);
+		  printf("%4.2f %4.2f %4.2f\n", position.x, position.y, b2Rot_GetAngle(rotation));
+		  */
+		  
 		  float deltaTime = GetFrameTime();
 		  b2World_Step(worldId, deltaTime, 4);
 
@@ -236,7 +264,6 @@ int main(void)
 		  BeginMode2D(camera);
 			
 		  ClearBackground(DARKGRAY);
-//		  DrawCircle(0, 0, 2, RED);    
 
 		  b2World_Draw(worldId, &m_debugDraw );
 		  /*
