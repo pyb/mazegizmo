@@ -11,6 +11,7 @@ using namespace std;
 
 const int screen_width = 800;
 const int screen_height = 480;
+const float pixelsPerMeter = 5.0f;
 
 typedef struct Entity
 {
@@ -36,36 +37,64 @@ void DrawEntity(const Entity* entity)
 
 b2DebugDraw m_debugDraw;
 
+Vector2 v2(b2Vec2 vec) {
+	 return (Vector2){vec.x, vec.y};
+}
 
 void drawPoly (const b2Vec2 *vertices, int vertexCount, b2HexColor color, void *context)
 {
-	 printf("Draw poly\n");
-	 for (int i = 0 ; i < vertexCount ; i++)
+	 Vector2 from;
+	 Vector2 to;
+	 from = v2(vertices[0]);
+	 to = from;
+	 
+	 for (int i = 1 ; i < vertexCount ; i++)
 	 {
-		  //
+
+		  to = v2(vertices[i]);
+		  DrawLineV(to, from, GetColor(color));
+		  from = to;
 	 }
-	 	 
+
+	 to = v2(vertices[0]);
+	 DrawLineV(from, to, GetColor(color));	 
 }
 
 void drawCircle (b2Vec2 center, float radius, b2HexColor color, void *context)
 {
-//void DrawCircle(int centerX, int centerY, float radius, Color color);
-	 DrawCircle(center.x, center.y, radius, GetColor(color));    
+	 DrawCircleLinesV(v2(center), radius, GetColor(color));
 }
 
 void drawSolidCircle (b2Transform transform, float radius, b2HexColor color, void *context)
 {
-	 printf("Draw solid circle\n");
-	 cout << transform.p.x << " " << transform.p.y << " " << radius << endl;
-//	 DrawCircle(transform.p.x, transform.p.y, radius, GetColor(color));
-	 DrawCircle(transform.p.x, transform.p.y, radius, RED);
-//	 DrawCircle(100, 100, 100, RED);
+//	 cout << transform.p.x << " " << transform.p.y << " " << radius << endl;
+	 DrawCircleV(v2(transform.p), radius, GetColor(color));
 }
 
 void drawSolidPoly (b2Transform transform, const b2Vec2 *vertices, int vertexCount, float radius, b2HexColor color, void *context)
 {
-	 printf("Draw solid poly\n");
-//	 drawPoly(vertices, vertexCount, color, context);
+	 Vector2 from;
+	 Vector2 to;
+	 Vector2 tf = v2(transform.p);
+	 from = v2(vertices[0]);
+	 from.x += tf.x;
+	 from.y += tf.y;
+	 to = from;
+	 
+	 for (int i = 1 ; i < vertexCount ; i++)
+	 {
+
+		  to = v2(vertices[i]);
+		  to.x += tf.x;
+		  to.y += tf.y;
+		  DrawLineV(to, from, GetColor(color));
+		  from = to;
+	 }
+
+	 to = v2(vertices[0]);
+	 to.x += tf.x;
+	 to.y += tf.y;
+	 DrawLineV(from, to, GetColor(color));	 
 }
 
 
@@ -95,8 +124,9 @@ void DrawPointFcn( b2Vec2 p, float size, b2HexColor color, void* context )
 
 void DrawStringFcn( b2Vec2 p, const char* s, b2HexColor color, void* context )
 {
-	 printf("Draw string\n");
-
+	 int fontSize = 2;
+	 DrawText(s, p.x, p.y, fontSize, GetColor(color)); 
+//	 printf("Draw string\n");
 }
 
 
@@ -106,7 +136,6 @@ void init_debug() {
 	m_debugDraw = {};
 	m_debugDraw.DrawCircle = drawCircle;
 	m_debugDraw.DrawPolygon = drawPoly;
-//	m_debugDraw.DrawSegment = DrawSegmentFcn;
 	m_debugDraw.drawShapes = true;
 
 	m_debugDraw.DrawSolidPolygon = drawSolidPoly;
@@ -124,7 +153,7 @@ void init_debug() {
 	m_debugDraw.drawShapes = true;
 	m_debugDraw.drawJoints = false;
 	m_debugDraw.drawJointExtras = false;
-	m_debugDraw.drawAABBs = false;
+	m_debugDraw.drawAABBs = true;
 	m_debugDraw.drawMass = false;
 	m_debugDraw.drawContacts = false;
 	m_debugDraw.drawGraphColors = false;
@@ -138,16 +167,24 @@ void init_debug() {
 
 int main(void)
 {
-	 init_debug();
 	 InitWindow(screen_width, screen_height, "Maze");
+
+	 Camera2D camera = { 0 };
+	 camera.target = (Vector2){ 0.0f, 0.0f };
+	 camera.offset = (Vector2){ screen_width/2.0f, screen_height/2.0f };
+	 camera.rotation = 0.0f;
+	 camera.zoom = pixelsPerMeter;
+	
 	 SetTargetFPS(60);
 	
-	 float lengthUnitsPerMeter = 10.0f;
-	 b2SetLengthUnitsPerMeter(lengthUnitsPerMeter);
+//	 float lengthUnitsPerMeter = 10.0f;
+//	 b2SetLengthUnitsPerMeter(lengthUnitsPerMeter);
+
+	 init_debug();
 
 	 b2WorldDef worldDef = b2DefaultWorldDef();
-	 worldDef.gravity.y = 9.8f * lengthUnitsPerMeter;
-	 //worldDef.gravity.y = -9.8f;
+//	 worldDef.gravity.y = 9.8f * lengthUnitsPerMeter;
+	 worldDef.gravity.y = -9.8f;
 	 b2WorldId worldId = b2CreateWorld(&worldDef);
 
 	 /*
@@ -156,7 +193,7 @@ int main(void)
 
 	 b2BodyDef groundBodyDef = b2DefaultBodyDef();
 	 groundBodyDef.position = (b2Vec2){0.0f, -10.0f};
-	 groundBodyDef.type = b2_staticBody;
+//	 groundBodyDef.type = b2_staticBody;
 	 b2BodyId groundId = b2CreateBody(worldId, &groundBodyDef);
 
 	 b2Vec2 boxExtent = { 50.0f, 10.0f};
@@ -164,6 +201,7 @@ int main(void)
 	 b2ShapeDef groundShapeDef = b2DefaultShapeDef();
 	 b2CreatePolygonShape(groundId, &groundShapeDef, &groundBox);
 
+	 
 	 b2BodyDef ballBodyDef = b2DefaultBodyDef();
 	 ballBodyDef.type = b2_dynamicBody;
 	 ballBodyDef.position = (b2Vec2){0.0f, 40.0f};
@@ -173,7 +211,7 @@ int main(void)
 	 ballShapeDef.density = 1.0f;
 	 ballShapeDef.friction = 0.3f;
 	 b2Circle circle;
-	 circle.center = (b2Vec2){2.0f, 3.0f};
+	 circle.center = (b2Vec2){0.0f, 0.0f};
 	 circle.radius = 2.0f;
 	 b2CreateCircleShape(ballBodyId, &ballShapeDef, &circle);
 
@@ -186,8 +224,11 @@ int main(void)
 		  b2World_Step(worldId, deltaTime, 4);
 
 		  BeginDrawing();
+		  BeginMode2D(camera);
 			
 		  ClearBackground(DARKGRAY);
+//		  DrawCircle(0, 0, 2, RED);    
+
 		  b2World_Draw(worldId, &m_debugDraw );
 		  /*
 			for (int i = 0; i < BOX_COUNT; ++i)
@@ -195,6 +236,7 @@ int main(void)
 			DrawEntity(boxEntities + i);
 			}
 		  */
+		  EndMode2D();
 		  EndDrawing();
 		  
 	 }
