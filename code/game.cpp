@@ -11,7 +11,7 @@
 #include <string>
 using namespace std;
 
-//#define SENSOR true
+#define SENSOR true
 
 int verbose = 0;
 
@@ -201,14 +201,14 @@ void DrawTransformFcn( b2Transform transform, void* context )
 
 void DrawPointFcn( b2Vec2 p, float size, b2HexColor color, void* context )
 {
-	 DrawCircleV(v2(p), size, GetColor(color));
+//	 DrawCircleV(v2(p), size, GetColor(color));
 //	 cout << "draw point " << p.x << " " << p.y << " " << size << endl;
 }
 
 void DrawStringFcn( b2Vec2 p, const char* s, b2HexColor color, void* context )
 {
-	 int fontSize = 2;
-	 DrawText(s, p.x, p.y, fontSize, GetColor(color)); 
+//	 int fontSize = 2;
+//	 DrawText(s, p.x, p.y, fontSize, GetColor(color)); 
 }
 
 
@@ -229,9 +229,9 @@ void initDebug() {
 	m_debugDraw.DrawPoint = DrawPointFcn;
 	m_debugDraw.DrawString = DrawStringFcn;
 	
-	//m_debugDraw.drawingBounds = bounds;
+	m_debugDraw.drawingBounds = bounds;
 
-	m_debugDraw.useDrawingBounds = false;
+	m_debugDraw.useDrawingBounds = true;
 	m_debugDraw.drawShapes = true;
 	m_debugDraw.drawJoints = false;
 	m_debugDraw.drawJointExtras = false;
