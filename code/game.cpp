@@ -9,9 +9,10 @@
 
 #include <fstream>
 #include <string>
+
 using namespace std;
 
-#define SENSOR true
+//#define SENSOR true
 
 int verbose = 0;
 
@@ -64,7 +65,6 @@ void initMaze()
 	 std::string line;
 	 while (std::getline(infile, line))
 	 {
-//		  cout << line << endl;
 		  for (int i = 0 ; i < maze_width; i++)
 		  {
 			   char c = line.at(i);
@@ -88,8 +88,6 @@ void initMaze()
 		  }
 		  j++;
 	 }
-	 //maze[20][20] = 1;
-	 //exit(0);
 }
 
 void initSensor()
@@ -127,7 +125,6 @@ void drawPoly (const b2Vec2 *vertices, int vertexCount, b2HexColor color, void *
 	 
 	 for (int i = 1 ; i < vertexCount ; i++)
 	 {
-
 		  to = v2(vertices[i]);
 		  DrawLineV(to, from, GetColor(color));
 		  from = to;
@@ -336,8 +333,8 @@ int main(void)
 	 wallBodyDef.type = b2_staticBody;
 	 b2BodyId wall3Id = b2CreateBody(worldId, &wallBodyDef);
 	 
-	 b2Vec2 boxHExtent = { wallLengthH/2, wallWidth/2};
-	 b2Vec2 boxVExtent = { wallLengthV/2, wallWidth/2};
+	 b2Vec2 boxHExtent = { wallLengthH/2, wallWidth/2 };
+	 b2Vec2 boxVExtent = { wallLengthV/2, wallWidth/2 };
 
 	 b2Polygon wallHBox = b2MakeBox(boxHExtent.x, boxHExtent.y);
 	 b2Polygon wallVBox = b2MakeBox(boxVExtent.y, boxVExtent.x);
@@ -406,8 +403,7 @@ int main(void)
 
 		  b2World_Draw(worldId, &m_debugDraw );
 		  EndMode2D();
-		  EndDrawing();
-		  
+		  EndDrawing();	  
 	 }
 
 	 /*

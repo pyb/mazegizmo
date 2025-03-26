@@ -1,0 +1,2 @@
+cmake -DPC=ON .
+make
