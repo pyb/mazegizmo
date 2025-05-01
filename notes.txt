@@ -1,0 +1,2 @@
+Designing a trap : catch the ball, fire it back in a direction as soon as downwards gravity is high enough.
+box2d feature to use?

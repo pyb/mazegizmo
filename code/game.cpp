@@ -3,12 +3,14 @@
 #include "raylib.h"
 #include "box2d/box2d.h"
 
+#include <fstream>
+#include <string>
+
 #include <stdio.h>
 #include <iostream>
 #include "getbno055.h"
 
-#include <fstream>
-#include <string>
+#include "debugdraw.h"
 
 using namespace std;
 
@@ -32,13 +34,8 @@ const float wallLengthH = wallLengthV * ((float)screen_width / (float)screen_hei
 	 
 const float pixelsPerMeter = screen_height / (wallLengthV);
 
-const float drawTransformAxisScale = .05f;
 const int sensorFramesSkipped = 10;
 
-const float mazeX = -0.3f;
-const float mazeY = -0.2f;
-const float mazeWallLength = 0.034f;
-const float mazeWallThickness = 0.01f;
 const float kbdGravityStep = 0.02f;
 
 // Sensor stuff. most of these are unused
@@ -49,49 +46,6 @@ char pwr_mode[8] = {0};
 char datatype[256];
 char senaddr[256] = "0x28";
 char i2c_bus[256] = I2CBUS;
-
-const int maze_width = 19;
-const int maze_height = 13;
-
-const int EMPTY = 0;
-const int VERTWALL = 1;
-const int HORWALL = 2;
-
-int maze[maze_width][maze_height];
-
-void initMaze()
-{
-	 int j = 0;
-	 
-	 std::ifstream infile("maze.txt");
-
-	 std::string line;
-	 while (std::getline(infile, line))
-	 {
-		  for (int i = 0 ; i < maze_width; i++)
-		  {
-			   char c = line.at(i);
-			   int val;
-			   switch(c)
-			   {
-			   case '.':
-					val = EMPTY;
-					break;
-			   case 'I':
-					val = VERTWALL;
-					break;
-			   case '-':
-					val = HORWALL;
-					break;
-			   default:
-					val = EMPTY;
-					break;
-			   }
-			   maze[i][j] = val;
-		  }
-		  j++;
-	 }
-}
 
 void initSensor()
 {
@@ -109,110 +63,27 @@ b2Vec2 readGravity()
 		  printf("Error: Cannot read gravity vector data.\n");
 		  exit(-1);
 	 }
-//	 printf("GRA %3.2f %3.2f %3.2f\n", (float)bnod.gravityx, (float)bnod.gravityy, bnod.gravityz);
 	 return (b2Vec2){(float)bnod.gravityy, (float)bnod.gravityx}; // axes are inverted rn
 }
 
 b2DebugDraw m_debugDraw;
 
-Vector2 v2(b2Vec2 vec) {
-	 return (Vector2){vec.x, vec.y};
-}
-
-void drawPoly (const b2Vec2 *vertices, int vertexCount, b2HexColor color, void *context)
-{
-	 Vector2 from;
-	 Vector2 to;
-	 from = v2(vertices[0]);
-	 to = from;
-	 
-	 for (int i = 1 ; i < vertexCount ; i++)
-	 {
-		  to = v2(vertices[i]);
-		  DrawLineV(to, from, GetColor(color));
-		  from = to;
-	 }
-
-	 to = v2(vertices[0]);
-	 DrawLineV(from, to, GetColor(color));	 
-}
-
-void drawCircle (b2Vec2 center, float radius, b2HexColor color, void *context)
-{
-	 DrawCircleLinesV(v2(center), radius, GetColor(color));
-}
-
-void drawSolidCircle (b2Transform transform, float radius, b2HexColor color, void *context)
-{
-	 DrawCircleV(v2(transform.p), radius, GetColor(color));
-}
-
-void drawSolidPoly (b2Transform transform, const b2Vec2 *vertices, int vertexCount, float radius, b2HexColor color, void *context)
-{
-	 Vector2 from;
-	 Vector2 to;
-	 Vector2 tf = v2(transform.p);
-	 from = v2(vertices[0]);
-	 from.x += tf.x;
-	 from.y += tf.y;
-	 to = from;
-	 
-	 for (int i = 1 ; i < vertexCount ; i++)
-	 {
-		  to = v2(vertices[i]);
-		  to.x += tf.x;
-		  to.y += tf.y;
-		  DrawLineV(to, from, GetColor(color));
-		  from = to;
-	 }
-
-	 to = v2(vertices[0]);
-	 to.x += tf.x;
-	 to.y += tf.y;
-	 DrawLineV(from, to, GetColor(color));
-}
-
-void DrawSolidCapsuleFcn( b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context )
-{
-	 cout << "Draw solid capsule" << endl;
-}
-
-void DrawSegmentFcn( b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context )
-{
-	 DrawLineV(v2(p1), v2(p2), GetColor(color));
-}
-
-void DrawTransformFcn( b2Transform transform, void* context )
-{
-	 Vector2 rX, rY;
-	 rX = v2(b2Rot_GetXAxis(transform.q));
-	 rY = v2(b2Rot_GetYAxis(transform.q));
-
-	 Vector2 p, q1, q2;
-	 p =  v2(transform.p);
-	 q1.x = p.x + drawTransformAxisScale * rX.x;
-	 q1.y = p.y + drawTransformAxisScale * rX.y;
-	 DrawLineV(p, q1, RED);
-
-	 q2.x = p.x + drawTransformAxisScale * rY.x;
-	 q2.y = p.y + drawTransformAxisScale * rY.y;
-	 DrawLineV(p, q2, GREEN);
-}
-
-void DrawPointFcn( b2Vec2 p, float size, b2HexColor color, void* context )
-{
-//	 DrawCircleV(v2(p), size, GetColor(color));
-//	 cout << "draw point " << p.x << " " << p.y << " " << size << endl;
-}
-
-void DrawStringFcn( b2Vec2 p, const char* s, b2HexColor color, void* context )
-{
-//	 int fontSize = 2;
-//	 DrawText(s, p.x, p.y, fontSize, GetColor(color)); 
-}
-
-
 b2AABB bounds = { { -FLT_MAX, -FLT_MAX }, { FLT_MAX, FLT_MAX } };
+
+const int MAX_TRAPS = 100;
+
+struct trap {
+	 float x;
+	 float y;
+	 float diameter;
+	 float angle;
+	 float angleRange;
+	 float speed;
+	 float delay;
+};
+
+int ntraps = 0;
+struct trap traps[MAX_TRAPS];
 
 void initDebug() {
 	m_debugDraw = {};
@@ -244,58 +115,55 @@ void initDebug() {
 	m_debugDraw.drawFrictionImpulses = true;
 
 	m_debugDraw.context = nullptr;
-
 }
 
-void buildMaze(b2WorldId worldId, float wallLength, float wallThickness, float startX, float startY)
+void addTrap (struct trap t)
 {
-	 b2BodyDef wallBodyDef = b2DefaultBodyDef();
-	 b2ShapeDef wallShapeDef = b2DefaultShapeDef();
+	 // Fire back the ball after <delay> towards (<angle>, <speed>) with +-<angleRange> randomness
+	 if (ntraps == MAX_TRAPS - 1)
+		  return;
+	 traps[ntraps] = t;
+	 ntraps++;
+}
 
-	 b2Vec2 wallHExtent = { wallLength/2, wallThickness/2};
-	 b2Polygon wallH = b2MakeBox(wallHExtent.x, wallHExtent.y);
-	 b2Polygon wallV = b2MakeBox(wallHExtent.y, wallHExtent.x);
+void addTraps()
+{
+	 struct trap trap1;
+	 trap1.x = -0.06;
+	 trap1.y = -0.04;
+	 trap1.diameter = 0.02;
+	 trap1.angle = -3.14/4;
+	 trap1.angleRange;
+	 trap1.speed = 10.0;
+	 trap1.delay = 2.0;
+	 addTrap(trap1);
+}
 
-	 for (int i = 0 ; i < maze_width ; i++)
+void initTraps(b2WorldId worldId)
+{
+	 for (int i = 0; i < ntraps ; i++)
 	 {
-		  for (int j = 0 ; j < maze_height ; j++)
-		  {
-			   if (maze[i][j] == EMPTY)
-					continue;
+		  struct trap t = traps[i];
+		  b2BodyDef trapBodyDef = b2DefaultBodyDef();
+		  trapBodyDef.type = b2_staticBody;
+		  trapBodyDef.position = (b2Vec2){t.x, t.y};
+		  trapBodyDef.enableSleep = false;
+		  b2BodyId trapBodyId = b2CreateBody(worldId, &trapBodyDef);
 
-			   wallBodyDef = b2DefaultBodyDef();
-			   wallBodyDef.position = (b2Vec2){startX + i * wallLength, startY + j * wallLength};
-			   wallBodyDef.enableSleep = false;
-			   wallBodyDef.type = b2_staticBody;
-
-			   wallShapeDef = b2DefaultShapeDef();
-			   
-			   b2BodyId wallId = b2CreateBody(worldId, &wallBodyDef);
-
-			   if (maze[i][j] == HORWALL)
-			   {
-					b2CreatePolygonShape(wallId, &wallShapeDef, &wallH);
-			   }
-			   else if (maze[i][j] == VERTWALL)
-			   {
-					b2CreatePolygonShape(wallId, &wallShapeDef, &wallV);
-			   }
-			   else
-			   {
-					cout << "Error in maze construction!" << endl;
-					exit(1);
-			   }
-		  }
+		  b2ShapeDef trapShapeDef = b2DefaultShapeDef();
+		  b2Circle circle;
+		  circle.center = (b2Vec2){t.x, t.y};
+		  circle.radius = t.diameter;
+		  b2CreateCircleShape(trapBodyId, &trapShapeDef, &circle);
 	 }
 }
 
 int main(void)
 {
-	 initMaze();
 #ifdef SENSOR
 	 initSensor();
 #endif
-	 InitWindow(screen_width, screen_height, "Maze");
+	 InitWindow(screen_width, screen_height, "Ball Game");
 
 	 Camera2D camera = { 0 };
 	 camera.target = (Vector2){ 0.0f, 0.0f };
@@ -361,7 +229,8 @@ int main(void)
 	 circle.radius = ballRadius;
 	 b2CreateCircleShape(ballBodyId, &ballShapeDef, &circle);
 
-	 buildMaze(worldId, mazeWallLength, mazeWallThickness, mazeX, mazeY);
+	 addTraps();
+	 initTraps(worldId);
 	 
 	 bool pause = false;
 
@@ -396,8 +265,11 @@ int main(void)
 			   b2World_SetGravity (worldId, gravity);
 		  }
 #endif
+		  // Caught in traps?
+		  
 		  float deltaTime = GetFrameTime();
 		  b2World_Step(worldId, deltaTime, 4);
+		  cout << "" << endl;
 
 		  BeginDrawing();
 		  BeginMode2D(camera);

@@ -34,7 +34,7 @@ else()
 endif()
 
 add_library(i2c_bno055 i2c_bno055.c)
-add_executable(game game.cpp)
+add_executable(game game.cpp debugdraw.cpp)
 
 if (PC)
 	target_link_libraries(game PRIVATE box2d raylib i2c i2c_bno055)
