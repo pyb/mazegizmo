@@ -16,9 +16,7 @@ if (PC)
    FetchContent_Declare(
 		box2d
 		GIT_REPOSITORY https://github.com/erincatto/box2d.git
-		GIT_TAG main
-		GIT_SHALLOW TRUE
-		GIT_PROGRESS TRUE
+		GIT_TAG 28adacf
 		)
 	FetchContent_MakeAvailable(box2d)
 
