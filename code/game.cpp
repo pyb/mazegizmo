@@ -23,8 +23,11 @@ const float wallLengthV = .5f;
 const float wallWidth = .020f;
 const float ballRadius = .013f;
 const b2Vec2 ballStart = (b2Vec2){0.0f, 0.0f};
-//b2Vec2 gravity = {0.0f, -9.8f};
+#ifdef PC
+b2Vec2 gravity = {0.0f, -1.0f};
+#else
 b2Vec2 gravity = {0.0f, 0.0f};
+#endif
 const float wallLengthH = wallLengthV * ((float)screen_width / (float)screen_height);
 	 
 const float pixelsPerMeter = screen_height / (wallLengthV);
@@ -36,7 +39,7 @@ const float mazeX = -0.3f;
 const float mazeY = -0.2f;
 const float mazeWallLength = 0.034f;
 const float mazeWallThickness = 0.01f;
-const float kbdGravityStep = 0.1f;
+const float kbdGravityStep = 0.02f;
 
 // Sensor stuff. most of these are unused
 int outflag = 0;

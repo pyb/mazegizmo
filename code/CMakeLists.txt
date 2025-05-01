@@ -28,6 +28,7 @@ if (PC)
 		GIT_PROGRESS TRUE
 	)
 	FetchContent_MakeAvailable(raylib)
+	add_compile_options(-DPC)
 else()
 	add_compile_options(-DSENSOR)
 endif()
