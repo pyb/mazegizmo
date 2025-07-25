@@ -24,6 +24,8 @@ const float ballDensity = 1.0f;
 const float wallLengthV = .5f;
 const float wallWidth = .020f;
 const float ballRadius = .013f;
+const float trapCatchRadius = 0.03f;
+
 const b2Vec2 ballStart = (b2Vec2){0.0f, 0.0f};
 #ifdef PC
 b2Vec2 gravity = {0.0f, -1.0f};
@@ -148,6 +150,8 @@ void initTraps(b2WorldId worldId)
 		  trapBodyDef.type = b2_staticBody;
 		  trapBodyDef.position = (b2Vec2){t.x, t.y};
 		  trapBodyDef.enableSleep = false;
+		  trapBodyDef.isEnabled = true;
+
 		  b2BodyId trapBodyId = b2CreateBody(worldId, &trapBodyDef);
 
 		  b2ShapeDef trapShapeDef = b2DefaultShapeDef();
@@ -156,6 +160,16 @@ void initTraps(b2WorldId worldId)
 		  circle.radius = t.diameter;
 		  b2CreateCircleShape(trapBodyId, &trapShapeDef, &circle);
 	 }
+}
+
+void trapBall (int trapId)
+{
+	 cout << "trapped!" << endl;
+}
+
+void releaseBall (int trapId)
+{
+
 }
 
 int main(void)
@@ -266,10 +280,28 @@ int main(void)
 		  }
 #endif
 		  // Caught in traps?
+		  {
+			   b2Vec2 position = b2Body_GetPosition(ballBodyId);
+			   float x = position.x;
+			   float y = position.y;
+			   
+			   for (int i = 0; i < ntraps ; i++)
+			   {
+					float xt = traps[i].x;
+					float yt = traps[i].y;
+					
+					if ( ( (x-xt)*(x-xt) + (y-yt)*(y-yt) ) < (trapCatchRadius * trapCatchRadius) )
+					{
+						 trapBall(i);
+						 cout << x << " " << y << endl;
+						 cout << xt << " " << yt << endl;
+					}
+			   }
+		  }
 		  
 		  float deltaTime = GetFrameTime();
 		  b2World_Step(worldId, deltaTime, 4);
-		  cout << "" << endl;
+//		  cout << "" << endl;
 
 		  BeginDrawing();
 		  BeginMode2D(camera);
@@ -280,12 +312,7 @@ int main(void)
 		  EndMode2D();
 		  EndDrawing();	  
 	 }
-
-	 /*
-	   UnloadTexture(boxTexture);
-	 */
-	
+	 
 	 CloseWindow();
-
 	 return 0;
 }

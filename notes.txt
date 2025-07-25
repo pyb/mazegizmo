@@ -1,2 +1,4 @@
 Designing a trap : catch the ball, fire it back in a direction as soon as downwards gravity is high enough.
 box2d feature to use?
+
+Traps : Need an idea of the basic interaction I want to optimise / make good.
